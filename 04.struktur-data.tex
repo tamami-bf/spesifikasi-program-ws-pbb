@@ -1,2 +1,70 @@
-\chapter{KAMUS DATA}
+\chapter{STRUKTUR DATA}
 
+Data-data yang digunakan untuk keperluan sistem aplikasi \textit{web service} PBB-P2 akan disimpan pada sistem basis data Oracle 11g di dalam basis data SISMIOP.
+
+Tabel-tabel yang dibentuk dan digunakan pada sistem aplikasi ini adalah sebagai berikut :
+
+\begin{enumerate}[1.]
+  \item Tabel SPPT
+  
+  Tabel ini terdiri dari kolom berikut :
+  
+  \begin{tabular}{|r|l|c|r|}
+    \hline
+    \textbf{NO} & \textbf{KOLOM} & \textbf{TIPE} & \textbf{PANJANG} \\
+    \hline \hline
+    1 & KD\_PROPINSI & CHAR & 2 \\
+    \hline
+    2 & KD\_DATI2 & CHAR & 2 \\
+    \hline
+    3 & KD\_KECAMATAN & CHAR & 3 \\
+    \hline
+    4 & KD\_KELURAHAN & CHAR & 3 \\
+    \hline
+    5 & KD\_BLOK & CHAR & 3 \\
+    \hline
+    6 & NO\_URUT & CHAR & 4 \\
+    \hline
+    7 & KD\_JNS\_OP & CHAR & 1 \\
+    \hline
+    8 & THN\_PAJAK\_SPPT & CHAR & 4 \\
+    \hline
+    9 & SIKLUS\_SPPT & NUMBER & 2 \\
+    \hline
+    10 & KD\_KANWIL\_BANK & CHAR & 2 \\
+    \hline
+    11 & KD\_KPPBB\_BANK & CHAR & 2 \\
+    \hline
+    12 & KD\_BANK\_TUNGGAL & CHAR & 2 \\
+    \hline
+    13 & KD\_BANK\_PERSEPSI & CHAR & 2 \\
+    \hline
+    14 & KD\_TP & CHAR & 2 \\
+    \hline
+    15 & NM\_WP\_SPPT & VARCHAR2 & 30 \\
+    \hline
+    16 & JLN\_WP\_SPPT & VARCHAR2 & 30 \\
+    \hline
+    17 & BLOK\_KAV\_NO\_WP\_SPPT & VARCHAR2 & 15 \\
+    \hline
+    18 & RW\_WP\_SPPT & CHAR & 2 \\
+    \hline
+    19 & RT\_WP\_SPPT & CHAR & 3 \\
+    \hline
+    20 & KELURAHAN\_WP\_SPPT & VARCHAR2 & 30 \\
+    \hline
+    21 & KOTA\_WP\_SPPT & VARCHAR2 & 3O \\
+    \hline
+    22 & KD\_POS\_WP\_SPPT & VARCHAR2 & 5 \\
+    \hline
+    23 & NPWP\_SPPT & VARCHAR2 & 15 \\
+    \hline
+    24 & NO\_PERSIL\_SPPT & VARCHAR2 & 5 \\
+    \hline
+    
+  \end{tabular}
+  
+  \item Tabel PEMBAYARAN\_SPPT
+  \item Tabel LOG\_TRX\_PEMBAYARAN
+  \item Tabel LOG\_REVERSAL
+\end{enumerate}
