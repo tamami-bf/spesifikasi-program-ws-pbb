@@ -1,17 +1,5 @@
-%%%%%%%%%%%%%%%%%%%% book.tex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% sample root file for the chapters of your "monograph"
-%
-% Use this file as a template for your own input.
-%
-%%%%%%%%%%%%%%%% Springer-Verlag %%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[pdftex,12pt, oneside]{article}
 
-
-% RECOMMENDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[pdftex,12pt, oneside]{book}
- 
-% choose options for [] as required from the list
-% in the Reference Guide, Sect. 2.2
 %\usepackage[paperwidth=8.5in, paperheight=13in]{geometry} %Folio
 \usepackage[paperwidth=8.27in, paperheight=11.69in]{geometry} %A4
 
@@ -31,10 +19,6 @@
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
-\makeindex             % used for the subject index
-                       % please use the style svind.ist with
-                       % your makeindex 
-                     
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
@@ -60,39 +44,24 @@
 
 \lstset{style=mystyle}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{document}
 \sloppy
 
+\begin{center}
+{\large DOKUMEN SPESIFIKASI SISTEM \textit{WEB SERVICES} SEBAGAI CARA KOMUNIKASI DENGAN TEMPAT PEMBAYARAN DALAM PENCATATAN PEMBAYARAN PAJAK BUMI DAN BANGUNAN PERDESAAN DAN PERKOTAAN DI KABUPATEN BREBES.}
+\\[1cm]
+DD MMM 2016\\
+Priyanto Tamami, S.Kom.
+\end{center}
 
-\input{./01.title.tex}
+\section{CAKUPAN DAN TUJUAN PROGRAM}
 
-\frontmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{STRUKTUR DATA}
 
+\section{FUNGSI YANG DILAKUKAN PROGRAM}
 
-\include{02.pengesahan}  
+\section{BATASAN KARAKTERISTIK PROGRAM}
 
-\tableofcontents
-\listoffigures
-\listoftables
-
-\mainmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{03.cakupan-tujuan-program}
-\include{04.struktur-data}
-\include{05.fungsi-yg-dilakukan-program}
-%\include{06.batasan-karakteristik-program}
-%\include{07.kriteria-pengujian-program-dengan-spesifikasi}
-
-\backmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\printindex
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{KRITERIA PENGUJIAN PROGRAM DENGAN SPESIFIKASI}
 
 \end{document}
-
-
-
-
-
