@@ -1,0 +1,15 @@
+\chapter{FUNGSI YANG HARUS DILAKUKAN OLEH PROGRAM}
+
+Fungsi-fungsi atau kebutuhan akan dibangunnya program atau sistem \textit{web service} ini adalah sebagai berikut :
+
+\begin{enumerate}[1.]
+  \item Mampu menampilkan informasi tagihan PBB-P2
+  
+  Dalam hal ini sesuai dengan parameter yang diberikan, yaitu berupa Nomor Objek Pajak (NOP) dan tahun pajak. Jadi begitu \textit{server} aplikasi menerima \textit{request} dari \textit{client}, tentunya \textit{client} mengirimkan NOP dan tahun pajak sebagai parameter masukkan bagi \textit{server}, kemudian atas dasar NOP dan tahun pajak tersebut, \textit{server} aplikasi akan melakukan komunikasi dengan \textit{server} basis data yang hasilnya berupa data tagihan yang akan dikirimkan ke \textit{client} dalam format JSON.
+  
+  \item Mampu mencatatkan transaksi pembayaran
+  
+  Untuk kondisi pencatatan pembayaran, maka \textit{client} akan disyaratkan mengirimkan Nomor Objek Pajak (NOP), Tahun Pajak, tanggal dilakukannya pembayaran, dan jam dilakukannya pembayaran.
+  
+  \item Mampu melakukan pembatalan transaksi pembayaran
+\end{enumerate}
