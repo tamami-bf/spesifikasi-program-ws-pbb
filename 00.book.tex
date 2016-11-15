@@ -56,12 +56,325 @@ Priyanto Tamami, S.Kom.
 
 \section{CAKUPAN DAN TUJUAN PROGRAM}
 
+Sebagaimana judul dari buku ini, yaitu dokumentasi rincian sistem \textit{web services} sebagai pencatat transaksi pembayaran PBB-P2 (Pajak Bumi dan Bangunan Perdesaan dan Perkotaan), salah satu tujuan utamanya yaitu bagaimana agar setiap pembayaran yang diterima oleh Bank sebagai tempat pembayaran dapat tercatat secara langsung dan otomatis dalam Sistem Manajemen Informasi Objek Pajak.
+
+Karena yang selama ini dilakukan adalah menggunakan 2 (dua) basis data yang terpisah secara fisik dan kegunaan sehingga timbulnya perbedaan data yang cukup banyak. Sebuah sistem basis data ditempat di Dinas Pendapatan dan Pengelolaan Keuangan Kabupaten Brebes sebagai tempat manajemen dan mengolah kondisi objek pajak dan besarnya piutang untuk tiap objek pajak, sementara sistem basis data yang lain berada pada Bank Pembangunan Daerah Jawa Tengah sebagai Bank tempat pembayaran yang mencatat objek-objek mana saja yang sudah terbayar dan objek-objek mana saja yang belum terbayar.
+
+Kondisi perbedaan data muncul akibat berubahnya data pada sistem basis data pada DPPK Kabupaten Brebes apabila ada pelayanan PBB-P2 yang masuk dari masyarakat wajib pajak, karena keterbatasan sumber daya manusia yang akan menyita banyak waktunya apabila setiap ada perubahan pada basis data ini harus dipindahkan tagihannya ke basis data milik Bank BPD Jawa Tengah, maka diambil langkah pemindahan data akibat perubahan pada basis data di DPPK Kabupaten Brebes dilakukan di hari berikutnya.
+
+Kondisi pencatatan pembayaran yang terjadi di Bank BPD Jawa Tengah pun demikian, data-data pembayaran untuk tiap objek baru dapat diunduh di hari berikutnya. Sehingga pada saat pencatatan pembayaran pada sistem basis data di DPPK Kabupaten Brebes, ada beberapa data yang berubah dan nilainya tidak sesuai dengan data pembayaran yang telah dilakukan di hari sebelumnya. Kondisi data yang telah tercatat terbayarkan pada sistem basis data Bank BPD Jawa Tengah pun tidak dapat diubah, sehingga perubahan yang terjadi pada basis data DPPK Kabupaten Brebes tidak dapat ditagihkan dan harus dikembalikan ke kondisi sebelum perubahan data terjadi.
+
+Hal ini yang menjadi tujuan utama dibangunnya sistem pencatatan pembayaran otomatis agar kondisi-kondisi perbedaan data seperti diatas dapat diminimalkan.
+
 \section{STRUKTUR DATA}
+
+Data-data yang digunakan untuk keperluan sistem aplikasi \textit{web service} PBB-P2 akan disimpan pada sistem basis data Oracle 11g di dalam basis data SISMIOP.
+
+Tabel-tabel yang dibentuk dan digunakan pada sistem aplikasi ini adalah sebagai berikut :
+
+\begin{enumerate}[1.]
+  \item Tabel SPPT
+  
+  Tabel ini terdiri dari kolom berikut :
+    
+  \begin{longtable}{|r|l|c|r|}
+    \hline
+    \textbf{NO} & \textbf{KOLOM} & \textbf{TIPE} & \textbf{PANJANG} \\
+    \hline \hline
+    1 & KD\_PROPINSI & CHAR & 2 \\
+    \hline
+    2 & KD\_DATI2 & CHAR & 2 \\
+    \hline
+    3 & KD\_KECAMATAN & CHAR & 3 \\
+    \hline
+    4 & KD\_KELURAHAN & CHAR & 3 \\
+    \hline
+    5 & KD\_BLOK & CHAR & 3 \\
+    \hline
+    6 & NO\_URUT & CHAR & 4 \\
+    \hline
+    7 & KD\_JNS\_OP & CHAR & 1 \\
+    \hline
+    8 & THN\_PAJAK\_SPPT & CHAR & 4 \\
+    \hline
+    9 & SIKLUS\_SPPT & NUMBER & 2 \\
+    \hline
+    10 & KD\_KANWIL\_BANK & CHAR & 2 \\
+    \hline
+    11 & KD\_KPPBB\_BANK & CHAR & 2 \\
+    \hline
+    12 & KD\_BANK\_TUNGGAL & CHAR & 2 \\
+    \hline
+    13 & KD\_BANK\_PERSEPSI & CHAR & 2 \\
+    \hline
+    14 & KD\_TP & CHAR & 2 \\
+    \hline
+    15 & NM\_WP\_SPPT & VARCHAR2 & 30 \\
+    \hline
+    16 & JLN\_WP\_SPPT & VARCHAR2 & 30 \\
+    \hline
+    17 & BLOK\_KAV\_NO\_WP\_SPPT & VARCHAR2 & 15 \\
+    \hline
+    18 & RW\_WP\_SPPT & CHAR & 2 \\
+    \hline
+    19 & RT\_WP\_SPPT & CHAR & 3 \\
+    \hline
+    20 & KELURAHAN\_WP\_SPPT & VARCHAR2 & 30 \\
+    \hline
+    21 & KOTA\_WP\_SPPT & VARCHAR2 & 3O \\
+    \hline
+    22 & KD\_POS\_WP\_SPPT & VARCHAR2 & 5 \\
+    \hline
+    23 & NPWP\_SPPT & VARCHAR2 & 15 \\
+    \hline
+    24 & NO\_PERSIL\_SPPT & VARCHAR2 & 5 \\
+    \hline
+    25 & KD\_KLS\_TANAH & CHAR & 3 \\
+    \hline
+    26 & THN\_AWAL\_KLS\_TANAH & CHAR & 4 \\
+    \hline
+    27 & KD\_KLS\_BNG & CHAR & 3 \\
+    \hline
+    28 & THN\_AWAL\_KLS\_BNG & CHAR & 4 \\
+    \hline
+    29 & TGL\_JATUH\_TEMPO\_SPPT & DATE & \\
+    \hline
+    30 & LUAS\_BUMI\_SPPT & NUMBER & 12 \\
+    \hline
+    31 & LUAS\_BNG\_SPPT & NUMBER & 12 \\
+    \hline
+    32 & NJOP\_BUMI\_SPPT & NUMBER & 15 \\
+    \hline
+    33 & NJOP\_BNG\_SPPT & NUMBER & 15 \\
+    \hline
+    34 & NJOP\_SPPT & NUMBER & 15 \\
+    \hline
+    35 & NJOPTKP\_SPPT & NUMBER & 8 \\
+    \hline
+    36 & NJKP\_SPPT & NUMBER & 5,2 \\
+    \hline
+    37 & PBB\_TERHUTANG\_SPPT & NUMBER & 15 \\
+    \hline
+    38 & FAKTOR\_PENGURANG\_SPPT & NUMBER & 12 \\
+    \hline
+    39 & PBB\_YG\_HARUS\_DIBAYAR\_SPPT & NUMBER & 15 \\
+    \hline
+    40 & STATUS\_PEMBAYARAN\_SPPT & CHAR & 1 \\
+    \hline
+    41 & STATUS\_TAGIHAN\_SPPT & CHAR & 1 \\
+    \hline
+    42 & STATUS\_CETAK\_SPPT & CHAR & 1 \\
+    \hline
+    43 & TGL\_TERBIT\_SPPT & DATE & \\
+    \hline
+    44 & TGL\_CETAK\_SPPT & DATE & \\
+    \hline
+    45 & NIP\_PENCETAK\_SPPT & CHAR & 9 \\
+    \hline
+    \caption{Tabel SPPT}
+  \end{longtable}
+    
+  Tabel ini digunakan untuk menyimpan informasi data-data tagihan untuk setiap objek pajak dan tahun pajak. Yang perlu diperhatikan adalah pada kolom STATUS\_PEMBAYARAN\_SPPT dimana bila isinya bernilai 0 (nol) maka tagihan tersebut belum terbayar, sementara bila bernilai 1 (satu) maka tagihan tersebut berarti sudah terbayarkan, namun bila isinya bernilai 2 (dua) maka akan menunjukkan bahwa objek pajak untuk tahun pajak tersebut telah dibatalkan tagihannya.
+  
+  \item Tabel PEMBAYARAN\_SPPT
+  
+  Informasi yang akan disimpan pada tabel PEMBAYARAN\_SPPT adalah sebagai berikut :
+  
+  \begin{longtable}{|r|l|c|r|}
+    \hline
+    \textbf{NO} & \textbf{KOLOM} & \textbf{TIPE} & \textbf{PANJANG} \\
+    \hline \hline
+    1 & KD\_PROPINSI & CHAR & 2 \\
+    \hline
+    2 & KD\_DATI2 & CHAR & 2 \\
+    \hline
+    3 & KD\_KECAMATAN & CHAR & 3 \\
+    \hline
+    4 & KD\_KELURAHAN & CHAR & 3 \\
+    \hline
+    5 & KD\_BLOK & CHAR & 3 \\
+    \hline
+    6 & NO\_URUT & CHAR & 4 \\ 
+    \hline
+    7 & KD\_JNS\_OP & CHAR & 1 \\
+    \hline
+    8 & THN\_PAJAK\_SPPT & CHAR & 4 \\
+    \hline
+    9 & PEMBAYARAN\_SPPT\_KE & NUMBER & 2 \\
+    \hline
+    10 & KD\_KANWIL\_BANK & CHAR & 2 \\
+    \hline
+    11 & KD\_KPPBB\_BANK & CHAR & 2 \\
+    \hline
+    12 & KD\_BANK\_TUNGGAL & CHAR & 2 \\
+    \hline 
+    13 & KD\_BANK\_PERSEPSI & CHAR & 2 \\
+    \hline
+    14 & KD\_TP & CHAR & 2 \\
+    \hline
+    15 & DENDA\_SPPT & NUMBER & 12 \\
+    \hline
+    16 & JML\_SPPT\_YG\_DIBAYAR & NUMBER & 15 \\
+    \hline
+    17 & TGL\_PEMBAYARAN\_SPPT & DATE & \\
+    \hline
+    18 & TGL\_REKAM\_BYR\_SPPT & DATE & \\
+    \hline
+    19 & NIP\_REKAM\_BYR\_SPPT & CHAR & 9 \\
+    \hline
+    \caption{Tabel PEMBAYARAN\_SPPT}
+  \end{longtable}
+  
+  Tabel ini berfungsi untuk menyimpan informasi pembayaran yang terjadi berdasarkan tagihan yang muncul pada tabel SPPT.
+  
+  \item Tabel LOG\_TRX\_PEMBAYARAN
+  
+  Informasi yang disimpan pada tabel LOG\_TRX\_PEMBAYARAN adalah sebagai berikut :
+  
+  \begin{longtable}{|r|l|c|r|}
+    \hline
+    \textbf{NO} & \textbf{KOLOM} & \textbf{TIPE} & \textbf{PANJANG} \\
+    \hline \hline
+    1 & NOP & VARCHAR2 & 18 \\
+    \hline
+    2 & THN & VARCHAR2 & 4 \\
+    \hline
+    3 & NTPD & VARCHAR2 & 30 \\
+    \hline
+    4 & POKOK & NUMBER & \\
+    \hline
+    5 & NAMA\_WP & VARCHAR2 & 50 \\
+    \hline
+    6 & ALAMAT\_OP & VARCHAR2 & 150 \\
+    \hline
+    7 & MATA\_ANGGARAN & VARCHAR2 & 15 \\
+    \hline
+    8 & MA\_SANKSI & VARCHAR2 & 20 \\
+    \hline
+    9 & DENDA & NUMBER & \\
+    \hline
+    10 & PEMBAYARAN\_KE & NUMBER & 2 \\
+    \hline
+    11 & IP\_CLIENT & VARCHAR2 & 30 \\
+    \hline
+    \caption{Tabel LOG\_TRX\_PEMBAYARAN}
+  \end{longtable}	
+  
+  Tabel ini digunakan untuk mencatat bahwa ada transaksi pembayaran yang telah selesai dan berhasil diproses oleh aplikasi.
+  
+  \item Tabel LOG\_REVERSAL
+  
+  Informasi yang disimpan pada tabel LOG\_REVERSAL adalah sebagai berikut :
+  
+  \begin{longtable}{|r|l|c|r|}
+    \hline
+    \textbf{NO} & \textbf{KOLOM} & \textbf{TIPE} & \textbf{PANJANG} \\
+    \hline \hline
+    1 & NOP & VARCHAR2 & 20 \\
+    \hline
+    2 & THN & VARCHAR2 & 4 \\
+    \hline
+    3 & NTPD & VARCHAR2 & 30 \\
+    \hline
+    4 & IP\_CLIENT & VARCHAR2 & 30 \\
+    \hline
+    \caption{Tabel LOG\_REVERSAL}
+  \end{longtable}
+  
+  Tabel ini digunakan untuk mencatat aktivitas dari proses \textit{reversal} yang berhasil dilakukan.
+\end{enumerate}
 
 \section{FUNGSI YANG DILAKUKAN PROGRAM}
 
+Fungsi-fungsi atau kebutuhan akan dibangunnya program atau sistem \textit{web service} ini adalah sebagai berikut :
+
+\begin{enumerate}[1.]
+  \item Mampu menampilkan informasi tagihan PBB-P2
+  
+  Dalam hal ini sesuai dengan parameter yang diberikan, yaitu berupa Nomor Objek Pajak (NOP) dan tahun pajak. Jadi begitu \textit{server} aplikasi menerima \textit{request} dari \textit{client}, tentunya \textit{client} mengirimkan NOP dan tahun pajak sebagai parameter masukkan bagi \textit{server}, kemudian atas dasar NOP dan tahun pajak tersebut, \textit{server} aplikasi akan melakukan komunikasi dengan \textit{server} basis data yang hasilnya berupa data tagihan yang akan dikirimkan ke \textit{client} dalam format JSON.
+  
+  \item Mampu mencatatkan transaksi pembayaran
+  
+  Untuk kondisi pencatatan pembayaran, maka \textit{client} akan disyaratkan mengirimkan Nomor Objek Pajak (NOP), Tahun Pajak, tanggal dilakukannya pembayaran, dan jam dilakukannya pembayaran. 
+  
+  Sistem aplikasi harus mampu melakukan perubahan pada kolom STATUS\_PEMBAYARAN\_SPPT pada tabel SPPT nilainya menjadi 1 (satu) yang artinya data tagihan untuk NOP dan tahun pajak tersebut telah terbayar.
+  
+  Sistem aplikasi juga harus mampu melakukan pengisian data pada tabel PEMBAYARAN\_SPPT. Termasuk mencatatkan aktivitasnya pada tabel LOG\_TRX\_PEMBAYARAN.
+  
+  \item Mampu melakukan pembatalan transaksi pembayaran
+  
+  Dalam beberapa kasus, kondisi pencatatan bisa saja mengalami kesalahan dan perlu koreksi terhadapnya, fungsi pembatalan transaksi pembayaran ditujukan untuk hal tersebut.
+  
+  Dalam hal ini, sistem aplikasi harus mampu melakukan \textit{reversal} atau mengembalikan data pencatatan pembayaran ke kondisi semula sebelum terjadinya pembayaran, artinya harus mampu mengubah isi dari kolom STATUS\_PEMBAYARAN\_SPPT di tabel SPPT menjadi 0 (nol) yang artinya tagihan belum terbayar, lalu menghapus isian pada tabel PEMBAYARAN\_SPPT, yang terakhir adalah mencatatkan aktivitasnya pada tabel LOG\_REVERSAL.
+\end{enumerate}
+
+Ketiga fungsi dasar itulah yang nantinya menjadi bahan dalam melakukan komunikasi dengan pihak Bank sebagai tempat pembayaran yang akan ditangani oleh sistem aplikasi ini.
+
 \section{BATASAN KARAKTERISTIK PROGRAM}
 
+Batasan karakteristik dari program ini adalah hanya terbatas pada fungsinya yang berhubungan dengan melakukan pencatatan pembayaran PBB-P2.
+
+Sistem aplikasi ini tidak dapat merubah identitas wajib pajak, tidak dapat merubah besarnya ketetapan, tidak dapat merubah kondisi objek pajak, juga tidak dapat memajukan atau memundurkan tanggal jatuh tempo yang berimbas pada jumlah denda administrasi yang muncul.
+
+Sesuai dengan tujuan dibangunnya program atau sistem aplikasi ini, nantinya hanya dapat menampilkan informasi tagihan dari sebuah objek pajak untuk tahun pajak tertentu, kemudian melakukan pencatatan pembayaran atas tagihan yang muncul tersebut, apabila terjadi kesalahan pada saat pencatatan pembayaran, maka pencatatan tersebut dapat di\textit{reversal} atau dikembalikan kondisinya menjadi belum terbayar.
+
 \section{KRITERIA PENGUJIAN PROGRAM DENGAN SPESIFIKASI}
+
+Kriteria pengujian program dengan spesifikasi dapat dilakukan sesuai dengan tujuan dibangunnya program atau sistem aplikasi ini. Untuk mempermudah dan merinci kriteria pengujian dari program atau sistem aplikasi maka akan dibagi menjadi 3 (tiga) bagian berikut :
+
+\begin{enumerate}[1.]
+  \item Kriteria Pengujian Untuk \textit{Inquiry} Data
+  
+  Hal pertama yang harus dipenuhi adalah kondisi data yang disajikan pada \textit{inquiry} data yang dikirim ke \textit{client} harus sama seperti apa yang ada pada basis data. Sebagai contoh kasus nyata, apabila pada basis data ada data sebagai berikut :
+  \begin{table}[H]
+    \resizebox{8cm}{!}
+      {
+        \begin{minipage}{1\textwidth}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|}
+          \hline
+          \textbf{KD\_PROPINSI} & \textbf{KD\_DATI2} & \textbf{KD\_KECAMATAN} & \textbf{KD\_KELURAHAN} & \textbf{KD\_BLOK} & \textbf{NO\_URUT} & \textbf{KD\_JNS\_OP} & \textbf{THN\_PAJAK\_SPPT} \\
+          \hline \hline
+          33 & 29 & 010 & 001 & 001 & 0001 & 0 & 2013 \\
+          \hline
+        \end{tabular}
+  
+        \begin{tabular}{|l|l|l|r|r|c|}
+          \hline
+      	  \textbf{NM\_WP\_SPPT} & \textbf{NM\_KELURAHAN} & \textbf{NM\_KECAMATAN} & \textbf{PBB\_YG\_HARUS\_DIBAYAR\_SPPT} & \textbf{DENDA} & \textbf{STATUS\_PEMBAYARAN\_SPPT} \\
+   	      \hline \hline
+       	  FULAN & GUNUNGJAYA & SALEM & 35.750 & 0 & 0 \\
+       	  \hline
+        \end{tabular}
+        \centering
+      \end{minipage}
+    }
+    \caption{Contoh Isi Tabel SPPT Pada Basis Data}
+  \end{table}
+  
+  Nantinya akan menghasilkan kode JSON seperti berikut :
+  
+  \begin{lstlisting}
+    {
+      "code":1,"message":"Data ditemukan",
+      "sppt": {
+        "nop":"332901000100100010",
+        "thn":"2013",
+        "nama":"FULAN",
+        "alamatOp":"GUNUNGJAYA - SALEM",
+        "pokok":35750,
+        "denda":0}
+    }
+  \end{lstlisting}
+  
+  
+  Apabila ditemukan kondisi dimana ternyata berdasarkan parameter Nomor Objek Pajak (NOP) dan tahun pajak yang dikirimkan oleh \textit{client} ke \textit{server}, data tagihannya memang tidak ada pada basis data, maka sistem aplikasi harus memberikan informasi bahwa tagihan untuk NOP pada tahun pajak tersebut tidak ada atau nihil.
+  
+  Sistem pun harus dapat membedakan penyajian data mana objek pajak yang telah terbayar tagihannya dan mana objek pajak yang belum.
+  
+  Yang tidak kalah penting dalam sebuah pengujian adalah sistem aplikasi harus mampu menjelaskan atau menyajikan informasi apabila ada kondisi diluar skenario muncul, seperti, terputusnya koneksi antara \textit{server} aplikasi dengan \textit{server} basis data, atau kondisi \textit{server} basis data yang tidak memungkinkan menambah jalur komunikasi dari luar, atau kondisi-kondisi lain yang sejenis.
+  
+  \item Kriteria Pengujian Untuk Pencatatan Pembayaran
+  \item Kriteria Pengujian Untuk \textit{Reversal} Pencatatan Pembayaran
+\end{enumerate}
 
 \end{document}
