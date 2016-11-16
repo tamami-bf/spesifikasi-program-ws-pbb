@@ -355,7 +355,8 @@ Kriteria pengujian program dengan spesifikasi dapat dilakukan sesuai dengan tuju
   
   \begin{lstlisting}
     {
-      "code":1,"message":"Data ditemukan",
+      "code":1,
+      "message":"Data ditemukan",
       "sppt": {
         "nop":"332901000100100010",
         "thn":"2013",
@@ -366,13 +367,48 @@ Kriteria pengujian program dengan spesifikasi dapat dilakukan sesuai dengan tuju
     }
   \end{lstlisting}
     
-  Apabila ditemukan kondisi dimana ternyata berdasarkan parameter Nomor Objek Pajak (NOP) dan tahun pajak yang dikirimkan oleh \textit{client} ke \textit{server}, data tagihannya memang tidak ada pada basis data, maka sistem aplikasi harus memberikan informasi bahwa tagihan untuk NOP pada tahun pajak tersebut tidak ada atau nihil.
+  Apabila ditemukan kondisi dimana ternyata berdasarkan parameter Nomor Objek Pajak (NOP) dan tahun pajak yang dikirimkan oleh \textit{client} ke \textit{server}, data tagihannya memang tidak ada pada basis data, maka sistem aplikasi harus memberikan informasi bahwa tagihan untuk NOP pada tahun pajak tersebut tidak ada atau nihil. Pesan yang harus dihasilkan dari sistem aplikasi ini adalah seperti kode JSON berikut :
   
-  Sistem pun harus dapat membedakan penyajian data mana objek pajak yang telah terbayar tagihannya dan mana objek pajak yang belum.
+  \begin{lstlisting}
+    {
+      "code":10,
+      "message":"Data Tidak Ditemukan",
+      "sppt":null
+    }
+  \end{lstlisting}
+ 
+  Yang tidak kalah penting dalam sebuah pengujian adalah sistem aplikasi harus mampu menjelaskan atau menyajikan informasi apabila ada kondisi diluar skenario muncul, seperti, terputusnya koneksi antara \textit{server} aplikasi dengan \textit{server} basis data, atau kondisi \textit{server} basis data yang tidak memungkinkan menambah jalur komunikasi dari luar, atau kondisi-kondisi lain yang sejenis. Pesan yang harus dihasilkan dari sistem aplikasi jika kondisinya seperti demikian adalah seperti kode berikut ini :
   
-  Yang tidak kalah penting dalam sebuah pengujian adalah sistem aplikasi harus mampu menjelaskan atau menyajikan informasi apabila ada kondisi diluar skenario muncul, seperti, terputusnya koneksi antara \textit{server} aplikasi dengan \textit{server} basis data, atau kondisi \textit{server} basis data yang tidak memungkinkan menambah jalur komunikasi dari luar, atau kondisi-kondisi lain yang sejenis.
+  \begin{lstlisting}
+    {
+      "code":04,
+      "message":"Kesalahan DB",
+      "sppt":null
+    }
+  \end{lstlisting}
   
   \item Kriteria Pengujian Untuk Pencatatan Pembayaran
+  
+  Kriteria untuk melakukan pengujian pencatatan pembayaran adalah bahwa sistem aplikasi harus mampu melakukan pencatatan pembayaran pada basis data. Respon yang harus diproduksi apabila pencatatan pembayaran berhasil adalah seperti berikut ini :
+  
+  \begin{lstlisting}
+    {
+      "code":1,
+      "message":"Pembayaran Telah Tercatat",
+      "byrSppt":{
+        "nop":"332901000300100010",
+        "thn":"2010",
+        "ntpd":"2016MA172551BA15091511",
+        "mataAnggaranPokok":"4.1.1.11.02",
+        "pokok":19000,
+        "mataAnggaranSanksi":"4.1.1.11.02",
+        "sanksi":0,
+        "namaWp":"BENGKOK KAUR UMUM",
+        "alamatOp":"BANJARAN - SALEM"
+      }
+    }
+  \end{lstlisting}
+  
   \item Kriteria Pengujian Untuk \textit{Reversal} Pencatatan Pembayaran
 \end{enumerate}
 
