@@ -50,7 +50,7 @@
 \begin{center}
 {\large DOKUMEN SPESIFIKASI SISTEM \textit{WEB SERVICES} SEBAGAI CARA KOMUNIKASI DENGAN TEMPAT PEMBAYARAN DALAM PENCATATAN PEMBAYARAN PAJAK BUMI DAN BANGUNAN PERDESAAN DAN PERKOTAAN DI KABUPATEN BREBES.}
 \\[1cm]
-DD MMM 2016\\
+17 November 2016\\
 Priyanto Tamami, S.Kom.
 \end{center}
 
@@ -320,6 +320,38 @@ Sesuai dengan tujuan dibangunnya program atau sistem aplikasi ini, nantinya hany
 
 \section{KRITERIA PENGUJIAN PROGRAM DENGAN SPESIFIKASI}
 
+Sebelum melangkah pada kriteria pengujian program, maka diperlukan kode status respon untuk mempermudah klasifikasi respon nantinya, kode-kode tersebut adalah sebagai berikut :
+
+  \begin{longtable}{|c|l|}
+    \hline
+    KODE & KETERANGAN \\
+    \hline
+    \hline
+    1 & Transaksi berhasil \\
+    \hline
+    10 & Tidak ada data pada basis data \\
+    \hline
+    13 & Tagihan telah terbayar \\
+    \hline
+    03 & Jumlah tagihan nihil \\
+    \hline
+    04 & Kesalahan server \\
+    \hline
+    05 & Kesalahan saat pembuatan Nomor Transaksi Pajak Daerah (NTPD) \\
+    \hline
+    31 & Parameter jumlah pembayaran ada karakter bukan angka \\
+    \hline
+    32 & Tanggal dan jam bayar melebihi tanggal dan jam pencatatan \\
+    \hline
+    33 & Tanggal dan jam kirim \textit{request reversal} lebih dari 1 hari \\
+    \hline
+    35 & Masa pajak bukan terdiri dari karakter angka \\
+    \hline
+    36 & Tahun pajak bukan terdiri dari karakter angka \\
+    \hline
+    \caption{Tabel Informasi Kode Respon}
+  \end{longtable}
+
 Kriteria pengujian program dengan spesifikasi dapat dilakukan sesuai dengan tujuan dibangunnya program atau sistem aplikasi ini. Untuk mempermudah dan merinci kriteria pengujian dari program atau sistem aplikasi maka akan dibagi menjadi 3 (tiga) bagian berikut :
 
 \begin{enumerate}[1.]
@@ -366,6 +398,16 @@ Kriteria pengujian program dengan spesifikasi dapat dilakukan sesuai dengan tuju
         "denda":0}
     }
   \end{lstlisting}
+  
+  Tahun pajak adalah salah satu parameter yang dikirimkan oleh \textit{client} sebagai bahan yang digunakan untuk pencarian data pada basis data, namun bila ditemukan kondisi bahwa tahun pajak terdapat karakter yang bukan angka, maka akan mengakibatkan kesalahan dan \textit{server} harus memproduksi pesannya agar aplikasi \textit{client} mengerti. Pesan yang harus dihasilkan oleh \textit{server} untuk kondisi seperti ini adalah sebagai berikut :
+  
+  \begin{lstlisting}
+    {
+      "code":36,
+      "message":"Tahun Pajak Mengandung Karakter bukan Angka",
+      "sppt":null
+    }
+  \end{lstlisting}
     
   Apabila ditemukan kondisi dimana ternyata berdasarkan parameter Nomor Objek Pajak (NOP) dan tahun pajak yang dikirimkan oleh \textit{client} ke \textit{server}, data tagihannya memang tidak ada pada basis data, maka sistem aplikasi harus memberikan informasi bahwa tagihan untuk NOP pada tahun pajak tersebut tidak ada atau nihil. Pesan yang harus dihasilkan dari sistem aplikasi ini adalah seperti kode JSON berikut :
   
@@ -409,7 +451,92 @@ Kriteria pengujian program dengan spesifikasi dapat dilakukan sesuai dengan tuju
     }
   \end{lstlisting}
   
+  Salah satu parameter yang dibutuhkan untuk pencatatan pembayaran adalah tanggal dan jam dilakukannya pembayaran, bila kondisi tanggal dan jam pembayaran yang dikirimkan oleh \textit{client} telah melewati tanggal dan jam saat ini, maka secara otomatis \textit{request} tersebut dibatalkan karena tidak valid, karena seharusnya tanggal pembayaran terjadi sebelum tanggal dan jam saat ini. Untuk hal ini \textit{server} harus memberikan respon pesan sebagai berikut :
+  
+  \begin{lstlisting}
+    {
+      "code":32,
+      "message":"Tanggal atau jam pada saat dibayarkan melebihi tanggal dan jam saat ini",
+      "byrSppt":null
+    }
+  \end{lstlisting}
+  
+  Bila ternyata pencatatan pembayaran dilakukan pada objek pajak yang telah terbayarkan, maka \textit{server} seharusnya menghasilkan pesan ke \textit{client} sebagai berikut :
+  
+  \begin{lstlisting}
+    {
+      "code":13,
+      "message":"Tagihan Telah Terbayar",
+      "byrSppt":null
+    }
+  \end{lstlisting}
+  
+  Namun apabila ternyata tagihan untuk objek pajak tersebut telah dibatalkan, maka pesan yang dikirimkan \textit{server} ke \textit{client} harus tampil seperti ini :
+  
+  \begin{lstlisting}
+    {
+      "code":3,
+      "message":"Tagihan SPPT Telah Dibatalkan",
+      "byrSppt":null
+    }
+  \end{lstlisting}
+  
+  Untuk kondisi dimana saat \textit{server} aplikasi gagal melakukan komunikasi dengan \textit{server} basis data, \textit{client} akan mendapatkan respon berikut :
+  
+  \begin{lstlisting}
+    {
+      "code":04,
+      "message":"Kesalahan DB",
+      "sppt":null
+    }
+  \end{lstlisting}
+  
   \item Kriteria Pengujian Untuk \textit{Reversal} Pencatatan Pembayaran
-\end{enumerate}
+  
+  Dari kriteria pengujian pada saat proses \textit{reversal} yang berhasil, maka \textit{server} harus mengirimkan kode berikut ini ke \textit{client} :
+  
+  \begin{lstlisting}
+    {
+      "code":1,
+      "message":"Proses Reversal Berhasil",
+      "revPembayaran": {
+        "nop":"332901000300100010",
+        "thn":"2010",
+        "ntpd":"2016MA172551BA15091511"
+      }
+    }
+  \end{lstlisting}
+  
+  Bila terdapat kondisi dimana proses \textit{reversal} gagal karena ternyata data yang diminta tidak ada, maka \textit{server} akan memberikan respon sebagai berikut :
+  
+  \begin{lstlisting}
+    {
+      "code":10,
+      "message":"Data Yang Diminta Tidak Ada",
+      "revPembayaran":null
+    }
+  \end{lstlisting}
+  
+  Bila ternyata ada kesalahan pada saat pencatatan transaksi pembayaran sebelumnya, yaitu data sempat tercatat 2 (dua) kali pada basis data, maka pesan respon yang dihasilkan dari \textit{server} adalah sebagai berikut :
+  
+  \begin{lstlisting}
+    {
+      "code":02,
+      "message":"Data tersebut Ganda",
+      "revPembayaran":null
+    }
+  \end{lstlisting}
+  
+  Bila ternyata data yang dimintakan untuk proses \textit{reversal} sudah pernah dilakukan sebelumnya maka \textit{server} akan merespon dengan jawaban yang sama dengan kondisi kesalahan komunikasi antara \textit{server} aplikasi dengan \textit{server} basis data, berikut kode respon yang dihasilkan :
+  
+  \begin{lstlisting}
+    {
+      "code":4,
+      "message":"Kesalahan Server",
+      "revPembayaran":null
+    }
+  \end{lstlisting}
+  
+  \end{enumerate}
 
 \end{document}
